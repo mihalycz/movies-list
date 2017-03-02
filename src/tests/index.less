@@ -1,0 +1,73 @@
+@import "~reset-css/reset.less";
+
+@background-color:  #d9edf7;
+@main-text-color: #31708f;
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Barrio', cursive;
+  color: @main-text-color;
+}
+
+header {
+  background-color: @background-color;
+  h1 {
+    text-align: center;
+    font-size: 32px;
+    margin: 10px 0;
+  }
+}
+
+main {
+  flex: 1 0 auto;
+  margin: 10px;
+}
+
+footer {
+  background-color: @background-color;
+  h2 {
+    text-align: center;
+    font-size: 24px;
+    margin: 5px 0;
+  }
+}
+
+[data-movies-list] {
+  margin: 0 auto;
+}
+
+@media (max-width: 320px) {
+  [data-movies-list] {
+    width: 95%;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 480px) {
+  [data-movies-list] {
+    width: 95%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  [data-movies-list] {
+    width: 70%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 960px) {
+  [data-movies-list] {
+    width: 50%;
+  }
+}
+
+@media (min-width: 961px) {
+  [data-movies-list] {
+    width: 40%;
+  }
+}

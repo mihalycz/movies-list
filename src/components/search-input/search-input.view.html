@@ -1,0 +1,13 @@
+<form>
+    <div class="form-group">
+        <input ng-model="context.searchValue" type="text" class="form-control" placeholder="Enter the movie name" />
+        <div class="movies-result" ng-show="context.selectedMovies.length">
+            <div ng-repeat="movie in context.selectedMovies" class="movie-item">
+                <img src="{{movie.poster || ''}}">
+                <h1>{{movie.title}}</h1>
+                <h2>{{movie.year}}</h2>
+            </div>
+        </div>
+        <i class="movies-loading-spinner"></i>
+    </div>
+</form>
