@@ -19,3 +19,9 @@ To see demo page please open **dev/index.html**
 npm run build
 ```
 To see demo page please open **build/index.html**
+
+**to run unit tests:**
+
+```sh
+npm run test
+```
