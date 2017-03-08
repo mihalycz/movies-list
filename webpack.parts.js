@@ -13,6 +13,7 @@ exports.devSetup = function() {
         },
         module: {
             loaders: [
+                { test: /\.less$/, loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader!less-loader' })},
                 { test: /\.(woff|woff2)$/, loader: "url-loader?limit=10000&mimetype=application/font-woff", options: {name: 'fonts/[hash].[ext]'} },
                 { test: /\.ttf$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
                 { test: /\.eot$/, loader: "file-loader", options: {name: 'fonts/[hash].[ext]'} },
@@ -26,7 +27,8 @@ exports.devSetup = function() {
             new HtmlWebpackPlugin({
               title: 'Movies List Test',
               template: './src/tests/index.hbs',
-              filename: 'index.html'})
+              filename: 'index.html'}),
+            new ExtractTextPlugin({ filename: 'css/[name].styles.css', disable: false, allChunks: true })
         ],
         devtool: '#inline-source-map',
     };
