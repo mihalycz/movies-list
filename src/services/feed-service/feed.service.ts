@@ -2,10 +2,18 @@ import * as angular from 'angular';
 import * as cache from '../cache.service/cache.service';
 
 /**
+ * Get Result Interface
+ */
+export interface IFeedResult<T> {
+    items: Array<T>;
+    totalResults: number;
+}
+
+/**
  * Get feed parameters interface
  */
 export interface IGetDataParameters<T> {
-    dataParser: (response: Object) => Array<T>;
+    dataParser: (response: Object) => IFeedResult<T> ;
     url: string;
     query: Object;
 }
@@ -14,13 +22,13 @@ export interface IGetDataParameters<T> {
  * Feeds Service interface
  */
 export interface IFeedService {
-    getData<T> (parameters: IGetDataParameters<T>):  angular.IPromise<Array<T>>;
+    getData<T> (parameters: IGetDataParameters<T>):  angular.IPromise<IFeedResult<T>>;
 }
 
 /**
  * Feeds Service
  */
-class FeedService implements IFeedService {
+export class FeedService implements IFeedService {
     _q: angular.IQService;
 
     _http: angular.IHttpService;
@@ -42,13 +50,13 @@ class FeedService implements IFeedService {
     /**
      * Get feed data
      * @param {IGetDataParameters<*>} parameters - request parameters.
-     * @return {IPromise<Array<*>>} returns promise to return typed array
+     * @return {IFeedResult<T>>} returns promise to return IFeedResult impl.
      */
-    getData<T>(parameters: IGetDataParameters<T>): angular.IPromise<Array<T>> {
+    getData<T>(parameters: IGetDataParameters<T>): angular.IPromise<IFeedResult<T>> {
         let deferred = this._q.defer();
         if (parameters.url) {
             this.cache.getData(parameters).then((result) => {
-                if (result && result.length) {
+                if (result && result.items.length) {
                     deferred.resolve(result);
                 } else {
                     let resource = this._sce.trustAsResourceUrl(parameters.url);
@@ -70,7 +78,7 @@ class FeedService implements IFeedService {
      * @param {Object} response - response data.
      * @return {void}
      */
-    onGetDataSuccess<T> (deferred: angular.IDeferred<Array<T>>, parameters: IGetDataParameters<T>, response: Object): void {
+    onGetDataSuccess<T> (deferred: angular.IDeferred<IFeedResult<T>>, parameters: IGetDataParameters<T>, response: Object): void {
         var responseData = parameters.dataParser(response);
         this.cache.setData(parameters, responseData);
         return deferred.resolve(responseData);
@@ -87,8 +95,3 @@ class FeedService implements IFeedService {
 }
 
 FeedService.$inject = ['$q', '$http', '$sce', 'cache'];
-
-export default angular.module('services.feed', [cache.default])
-    .service('feed', FeedService)
-    .name;
-

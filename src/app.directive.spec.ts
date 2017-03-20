@@ -3,14 +3,14 @@ import * as chai from 'chai';
 import * as $ from 'jquery';
 
 describe('Application Directive', function() {
-    let $compile;
-    let $rootScope;
+    let $compile: angular.ICompileService;
+    let $rootScope: angular.IRootScopeService;
 
     beforeEach(function() {
         angular.mock.module('movies-list-app');
     });
 
-    beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_){
+    beforeEach(angular.mock.inject(function(_$compile_: angular.ICompileService, _$rootScope_: angular.IRootScopeService){
         $compile = _$compile_;
         $rootScope = _$rootScope_;
     }));

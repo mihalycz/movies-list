@@ -1,6 +1,7 @@
+import 'angular-lazyload';
 import * as angular from 'angular';
 import SearchInputController from './search-input.controller';
-import moviesCache from '../../services/movies-cache/movies-cache.service';
+import services from '../../services/services.module';
 import './search-input.view.less';
 
 function searchInput() {
@@ -12,7 +13,7 @@ function searchInput() {
     }
 }
 
-export default angular.module('components.search-input', [moviesCache])
+export default angular.module('components.search-input', ['lazyload', services])
     .controller('SearchInputController', SearchInputController)
     .directive('searchInput', searchInput)
     .name;

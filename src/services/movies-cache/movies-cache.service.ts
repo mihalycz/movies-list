@@ -6,7 +6,7 @@ import * as feed from '../feed-service/feed.service';
  * Movies Cache Service Interface
  */
 export interface IMoviesCache {
-    getMovies (query: string):  angular.IPromise<Array<IMovieInfo>>;
+    getMovies (query: string, page: number):  angular.IPromise<feed.IFeedResult<IMovieInfo>>;
 }
 
 /**
@@ -17,22 +17,25 @@ export interface IMovieInfo {
     year: number;
     poster: string;
     type: string;
+    imdbId: string
 }
 
 /**
  * Movie Item
  */
-class MovieInfo implements IMovieInfo {
+export class MovieInfo implements IMovieInfo {
     title: string;
     year: number;
     poster: string;
     type: string;
+    imdbId: string;
 
     constructor(movie: Object) {
         this.title = _.get<string>(movie, 'Title');
         this.year =  _.parseInt(_.get(movie, 'Year', '0'), 10);
         this.poster = _.get<string>(movie, 'Poster');
         this.type = _.get<string>(movie, 'Type');
+        this.imdbId = _.get<string>(movie, 'imdbID');
 
         if (this.poster === 'N/A') {
             this.poster = '';
@@ -43,7 +46,7 @@ class MovieInfo implements IMovieInfo {
 /**
  * Movies Cache Service
  */
-class MoviesCache implements IMoviesCache {
+export class MoviesCache implements IMoviesCache {
     feedService: feed.IFeedService;
 
     constructor(feed: feed.IFeedService) {
@@ -53,30 +56,32 @@ class MoviesCache implements IMoviesCache {
     /**
      * Get feed data
      * @param {string} query - request string.
-     * @return {IPromise<Array<IMovieInfo>>} returns promise to return array of Movie Items
+     * @param {number} page - result page number.
+     * @return {IPromise<feed.IFeedResult<IMovieInfo>>} returns a promise to return list of movies and total movies count
      */
-    getMovies(query: string): angular.IPromise<Array<IMovieInfo>> {
+    getMovies(query: string, page: number): angular.IPromise<feed.IFeedResult<IMovieInfo>> {
         return this.feedService.getData<IMovieInfo>({
             dataParser: this.parse,
             url: 'http://www.omdbapi.com/',
-            query: { s: query }
+            query: { s: query, page: page }
         });
     }
 
     /**
      * Response data parser
      * @param {Object} response - response object.
-     * @return {Array<IMovieInfo>} returns array of Movie Items
+     * @return {IFeedResult<IMovieInfo>} returns array of Movie Items and total items count
      */
-    parse(response: Object): Array<IMovieInfo> {
-        return _.map(_.get(response, 'data.Search', []), (movie) => {
+    parse(response: Object): feed.IFeedResult<IMovieInfo> {
+        let totalResults = _.get(response, 'data.totalResults', 0);
+        let items = _.map(_.get(response, 'data.Search', []), (movie) => {
             return new MovieInfo(movie);
-        })
+        });
+        return {
+            items: items,
+            totalResults: totalResults
+        }
     }
 }
 
 MoviesCache.$inject = ['feed'];
-
-export default angular.module('services.movies-cache', [feed.default])
-    .service('moviesCache', MoviesCache)
-    .name;
