@@ -1,5 +1,5 @@
 # movies list
-Movies list test module.  
+Movies list test module. **!!! module is in the middle of development, it is works, but markup is not ready yet.** 
 
 ```sh
 npm i
