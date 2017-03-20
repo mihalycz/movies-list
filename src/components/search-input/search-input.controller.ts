@@ -65,13 +65,18 @@ export default class SearchInputController {
 
     onGetMoviesSuccess (searchValue: string, result: IFeedResult<IMovieInfo>) {
         if (searchValue === this.searchValue) {
+            let isGetSecondPage = false;
             if (this.page === 1) {
                 this.pages = Math.floor(result.totalResults / this.itemsPerPage);
+                isGetSecondPage = true
             }
             this.scope.selectedMovies = _.concat(this.scope.selectedMovies, result.items);
             this.page += 1;
             this.scope.$broadcast('lazyLoadingFinished');
             this.isLoading = false;
+            if (isGetSecondPage) {
+                this.getMovies (searchValue);
+            }
         }
     }
 

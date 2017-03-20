@@ -2,26 +2,27 @@
     <div class="form-group search-form">
         <input ng-model="context.searchValue" type="text" class="form-control" placeholder="Enter the movie name" />
         <div class="movies-result" ng-show="selectedMovies.length">
-            <div ng-repeat="movie in selectedMovies" ng-click="onMovieItemClick(movie, $index)" class="movie-item" ng-class="{ 'opened': movie.plot }">
-                <div class="base-data">
-                    <div class="image-column">
-                        <img src="{{movie.poster || ''}}">
-                    </div>
-                    <div class="text-column">
+            <div ng-repeat="movie in selectedMovies"
+                 ng-class="{ 'opened': movie.plot }"
+                 ng-click="onMovieItemClick(movie, $index)"
+                 class="movie-item">
+                <div class="short-info" ng-if="!movie.plot">
+                    <div class="left-column" ng-style="{ 'background-image':'url({{movie.poster}})'}"></div>
+                    <div class="right-column">
                         <h1 class="title">{{movie.title}}</h1>
-                        <h2 class="release">{{movie.released ? movie.released.format('DD/MM/YYYY') : movie.year}}</h2>
                     </div>
                 </div>
-                <div class="extended-data">
-                    <h3>{{movie.runtime}}</h3>
-                    <h3>{{movie.genre}}</h3>
-                    <h3>{{movie.director}}</h3>
-                    <h3>{{movie.writer}}</h3>
-                    <h3>{{movie.actors}}</h3>
-                    <h3>{{movie.language}}</h3>
-                    <h3>{{movie.country}}</h3>
-                    <h3>{{movie.awards}}</h3>
-                    <h3>{{movie.imdbRating}}</h3>
+                <div class="full-info" ng-style="{ 'background-image':'linear-gradient(rgba(0, 0, 0, 0.7),rgba(0, 0, 0, 0.7)), url({{movie.poster}})'}" ng-if="movie.plot">
+                    <h3 class="release">{{movie.released && movie.released.isValid() ? movie.released.format('DD/MM/YYYY') : ''}}</h3>
+                    <h3><span>run time:</span> {{movie.runtime}}</h3>
+                    <h3><span>genre:</span> {{movie.genre}}</h3>
+                    <h3><span>director:</span> {{movie.director}}</h3>
+                    <h3><span>writer:</span> {{movie.writer}}</h3>
+                    <h3><span>actors:</span> {{movie.actors}}</h3>
+                    <h3><span>language:</span> {{movie.language}}</h3>
+                    <h3><span>country:</span> {{movie.country}}</h3>
+                    <h3><span>awards:</span> {{movie.awards}}</h3>
+                    <h3><span>IMDB rating:</span> {{movie.imdbRating}}</h3>
                     <p>{{movie.plot}}</p>
                 </div>
             </div>

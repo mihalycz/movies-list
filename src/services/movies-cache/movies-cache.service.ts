@@ -38,7 +38,7 @@ export class MovieInfo implements IMovieInfo {
         this.imdbId = _.get<string>(movie, 'imdbID');
 
         if (this.poster === 'N/A') {
-            this.poster = '';
+            this.poster = require('../../styles/default-cover.jpg');
         }
     }
 }
