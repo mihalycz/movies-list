@@ -26,7 +26,7 @@ exports.devSetup = function() {
             new webpack.NamedModulesPlugin(),
             new HtmlWebpackPlugin({
               title: 'Movies List Test',
-              template: './src/tests/index.hbs',
+              template: './src/demo-page/index.hbs',
               filename: 'index.html'}),
             new ExtractTextPlugin({ filename: 'css/[name].styles.css', disable: false, allChunks: true })
         ],
@@ -76,7 +76,7 @@ exports.prodSetup = function() {
             }),
             new HtmlWebpackPlugin({
                 title: 'Movies List Prod',
-                template: './src/tests/index.hbs',
+                template: './src/demo-page/index.hbs',
                 filename: 'index.html'
             }),
             new ExtractTextPlugin({ filename: 'css/[name].styles.css', disable: false, allChunks: true })

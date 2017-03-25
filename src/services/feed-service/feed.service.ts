@@ -89,8 +89,8 @@ export class FeedService implements IFeedService {
      * @param {angular.IDeferred<Array<*>} deferred - promise to resolve.
      * @return {void}
      */
-    onGetDataError<T> (deferred: angular.IDeferred<Array<T>>): void {
-        deferred.reject('get data error');
+    onGetDataError<T> (deferred: angular.IDeferred<Array<T>>, error: any): void {
+        deferred.reject(error);
     }
 }
 
