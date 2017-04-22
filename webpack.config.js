@@ -10,8 +10,8 @@ const testSetup = parts.testSetup();
 const mainConfig = {
     context: __dirname,
     entry: {
-        app: './src/index.ts',
-        index: './src/tests/index.ts'
+        app:   './src/index.ts',
+        index: './src/demo-page/index.ts'
     },
     module: {
         loaders: [

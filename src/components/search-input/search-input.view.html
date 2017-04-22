@@ -1,7 +1,7 @@
-<form>
+<form class="search-form-main">
     <div class="form-group search-form">
-        <input ng-model="context.searchValue" type="text" class="form-control" placeholder="Enter the movie name" />
-        <div class="movies-result" ng-show="selectedMovies.length">
+        <input ng-model="searchValue" type="text" class="form-control search-form-input" placeholder="Enter the movie name" />
+        <div class="movies-result" ng-if="selectedMovies.length">
             <div ng-repeat="movie in selectedMovies"
                  ng-class="{ 'opened': movie.plot }"
                  ng-click="onMovieItemClick(movie, $index)"

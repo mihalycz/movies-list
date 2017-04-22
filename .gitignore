@@ -50,3 +50,4 @@ dev/
 .idea/
 public/
 tmp/
+coverage/

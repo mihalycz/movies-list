@@ -72,8 +72,8 @@ class FullMovieInfo extends MovieInfo implements IFullMovieInfo {
         this.language = _.get<string>(movie, 'Language');
         this.country = _.get<string>(movie, 'Country');
         this.awards = _.get<string>(movie, 'Awards');
-        this.imdbRating = _.get<number>(movie, 'imdbRating');
-        this.imdbVotes =  _.get<number>(movie, 'imdbVotes');
+        this.imdbRating = parseFloat(_.get<string>(movie, 'imdbRating'));
+        this.imdbVotes =  parseFloat(_.get<string>(movie, 'imdbVotes'));
         this.type = _.get<string>(movie, 'Type');
     }
 }

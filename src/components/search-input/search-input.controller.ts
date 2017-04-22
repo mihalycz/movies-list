@@ -29,8 +29,9 @@ export default class SearchInputController {
         this.currentMovieCache = currentMovieCache;
         this.tempCache = {};
         this.scope.selectedMovies = [];
+        this.scope.searchValue = '';
         this.scope.onMovieItemClick = this.onMovieItemClick.bind(this);
-        this.scope.$watch('context.searchValue', _.debounce(this.onSearchChange.bind(this), 500));
+        this.scope.$watch('searchValue', _.debounce(this.onSearchChange.bind(this), 500));
         this.scope.$on('lazyLoading', this.onLazyLoading.bind(this));
     }
 
@@ -51,7 +52,7 @@ export default class SearchInputController {
         this.pages = 0;
         this.tempCache = {};
         this.scope.selectedMovies = [];
-        this.scope.$apply();
+        //this.scope.$apply();
         if (value) {
             this.getMovies (value);
         }
@@ -59,12 +60,12 @@ export default class SearchInputController {
 
     onLazyLoading () {
         if (!this.isLoading) {
-            this.getMovies (this.searchValue);
+            this.getMovies (this.scope.searchValue);
         }
     }
 
     onGetMoviesSuccess (searchValue: string, result: IFeedResult<IMovieInfo>) {
-        if (searchValue === this.searchValue) {
+        if (searchValue === this.scope.searchValue) {
             let isGetSecondPage = false;
             if (this.page === 1) {
                 this.pages = Math.floor(result.totalResults / this.itemsPerPage);
